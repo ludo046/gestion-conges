@@ -10,6 +10,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import fr.diginamic.gestionconges.entities.Collaborateur;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
@@ -35,22 +37,10 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 
         // Recherche du jeton par Cookie
-        if(req.getCookies() != null) {
-            Stream.of(req.getCookies()).filter(cookie -> cookie.getName().equals(TOKEN_COOKIE))
-                    .map(cookie -> cookie.getValue())
-                    .forEach(token -> {
-
-                        Claims body = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-
-                        String username = body.getSubject();
-
-                        List<SimpleGrantedAuthority> roles = Arrays.asList(body.get("roles", String.class).split(",")).stream().map(roleString -> new SimpleGrantedAuthority(roleString)).collect(Collectors.toList());
-
-                        Authentication authentication =  new UsernamePasswordAuthenticationToken(username, null, roles);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    });
+    	if (JWTAuthenticationSuccessHandler.authenticationMem != null) {
+            SecurityContextHolder.getContext().setAuthentication(JWTAuthenticationSuccessHandler.authenticationMem);
         }
-
+    	
 
         chain.doFilter(req, res);
 

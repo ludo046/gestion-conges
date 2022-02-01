@@ -65,8 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                  // Suppression du cookie JSESSIONID
                  // nous ne souhaitons pas de stockage d'état côté serveur
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+//                .and()
                  // en cas d'erreur, un code 403 est envoyé
                 .exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN))
                 .and()
@@ -85,7 +85,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //     => la pause d'un cookie d'authentification
                 .successHandler(jwtAuthenticationSuccessHandler)
                 // en cas d'echec, code 400 envoyé
-                .failureHandler((request, response, exception) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN))
+                .failureHandler((request, response, exception) -> {
+                	System.out.println(exception);
+                	response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                })
                 // la requête POST /login n'est pas soumise à authentification
                 .permitAll()
                 .and()
@@ -95,8 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // /POST /logout
                 .logout()
                 // en cas de succès un OK est envoyé (à la place d'une redirection vers /login)
-                .logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
+                .logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK));
                 // suppression du cookie d'authentification
-                .deleteCookies(TOKEN_COOKIE);
     }
 }
