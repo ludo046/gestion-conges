@@ -7,10 +7,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import fr.diginamic.gestionconges.providers.AppAuthProvider;
 import fr.diginamic.gestionconges.services.UserService;
@@ -22,7 +18,6 @@ public class SpringConfigSecurity extends WebSecurityConfigurerAdapter {
     @Autowired  
     UserService userDetailsService;
     
-
     @Bean
     public AuthenticationProvider getProvider() {
         AppAuthProvider provider = new AppAuthProvider();
@@ -32,15 +27,10 @@ public class SpringConfigSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().authenticationProvider(getProvider())
-        .formLogin().loginProcessingUrl("/login")
-        .defaultSuccessUrl("/home", true).and()
-        .logout().logoutUrl("/logout").invalidateHttpSession(true).and()
-        .authorizeRequests()
-        .antMatchers("/login").permitAll()
-        .antMatchers("logout").permitAll()
-        .antMatchers("/api/**").authenticated()
-        .anyRequest().authenticated();
+    	http.cors().and().authorizeRequests()
+		.antMatchers("/login", "http://localhost:4200/login")
+		.permitAll().anyRequest().authenticated().and().formLogin()
+		.defaultSuccessUrl("http://localhost:4200/home", true).failureForwardUrl("http://localhost:4200/error");
         
     }
 

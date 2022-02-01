@@ -16,7 +16,7 @@ public class GestionCongesApplication {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                         .allowedHeaders("Content-Type");
             }
         };
