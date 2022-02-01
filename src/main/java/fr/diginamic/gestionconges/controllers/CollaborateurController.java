@@ -19,7 +19,7 @@ import fr.diginamic.gestionconges.dto.CollaborateurDto;
 import fr.diginamic.gestionconges.entities.Collaborateur;
 import fr.diginamic.gestionconges.services.CollaborateurService;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/collaborateur")
 public class CollaborateurController {

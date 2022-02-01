@@ -1,5 +1,6 @@
 package fr.diginamic.gestionconges.entities;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,9 +16,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "collaborateur")
-public class Collaborateur {
+public class Collaborateur implements UserDetails{
 
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
@@ -176,5 +181,57 @@ public class Collaborateur {
 	public void setSubordonnes(Set<Collaborateur> subordonnes) {
 		this.subordonnes = subordonnes;
 	}
+
+	@Override
+	public String toString() {
+		return "Collaborateur [id=" + id + ", prenom=" + prenom + ", nom=" + nom + ", identifiant=" + identifiant
+				+ ", motDePasse=" + motDePasse + ", congesAquis=" + congesAquis + ", congesPoses=" + congesPoses
+				+ ", rttAquis=" + rttAquis + ", rttPoses=" + rttPoses + ", demandesAbsence=" + demandesAbsence
+				+ ", subordonnes=" + subordonnes + ", manager=" + manager + "]";
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
 	
 }
