@@ -1,5 +1,7 @@
 package fr.diginamic.gestionconges.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +14,5 @@ public interface CollaborateurRepository extends CrudRepository<Collaborateur, I
 	 * @param identifiant identifiant
 	 * @return Collaborateur
 	 */
-	public Collaborateur findByIdentifiant(String identifiant);
+	public Optional<Collaborateur> findByIdentifiant(String identifiant);
 }
