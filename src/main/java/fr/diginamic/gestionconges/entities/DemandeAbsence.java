@@ -44,7 +44,7 @@ public class DemandeAbsence {
 	
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "collaborateur_id", insertable = false, updatable = false)
+	@JoinColumn(name = "collaborateur_id")
 	private Collaborateur collaborateur;
 	
 	public DemandeAbsence() {

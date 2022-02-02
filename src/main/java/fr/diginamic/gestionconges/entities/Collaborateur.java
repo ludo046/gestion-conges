@@ -61,7 +61,6 @@ public class Collaborateur {
 	private String role;
 	
 	@OneToMany
-	@JoinColumn(name = "collaborateur_id")
 	private Set<DemandeAbsence> demandesAbsence;
 	
 	@OneToMany
