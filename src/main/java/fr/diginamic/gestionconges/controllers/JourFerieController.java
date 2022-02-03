@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.diginamic.gestionconges.dto.JourFerieDto;
+import fr.diginamic.gestionconges.entities.DemandeAbsence;
 import fr.diginamic.gestionconges.entities.JourFerie;
 import fr.diginamic.gestionconges.services.JourFerieService;
 
@@ -27,10 +29,11 @@ public class JourFerieController {
 	JourFerieService jourFerieService;
 
 	@PostMapping
-	public JourFerie createJourFerie(@RequestBody JourFerie jourFerie, BindingResult result) throws Exception {
+	public JourFerie createJourFerie(@RequestBody JourFerieDto jourFerieDto, BindingResult result) throws Exception {
 		if(result.hasErrors()) {
             throw new Exception(result.toString());
         }
+		JourFerie jourFerie = jourFerieService.toEntity(jourFerieDto);
 		return jourFerieService.createJourFerie(jourFerie);
 	}
 	
@@ -45,10 +48,11 @@ public class JourFerieController {
 	}
 	
 	@PutMapping("/{id}")
-	public JourFerie updateJourFerie(@PathVariable int id, @RequestBody JourFerie jourFerie, BindingResult result) throws Exception {
+	public JourFerie updateJourFerie(@PathVariable int id, @RequestBody JourFerieDto jourFerieDto, BindingResult result) throws Exception {
 		if(result.hasErrors()) {
             throw new Exception(result.toString());
         }
+		JourFerie jourFerie = jourFerieService.toEntity(jourFerieDto);
 		return jourFerieService.updateJourFerie(id, jourFerie);
 	}
 	

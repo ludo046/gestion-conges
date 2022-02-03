@@ -1,5 +1,7 @@
 package fr.diginamic.gestionconges.services;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,7 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import fr.diginamic.gestionconges.dto.DemandeAbsenceDto;
+import fr.diginamic.gestionconges.dto.JourFerieDto;
+import fr.diginamic.gestionconges.entities.DemandeAbsence;
 import fr.diginamic.gestionconges.entities.JourFerie;
+import fr.diginamic.gestionconges.entities.StatutDemande;
+import fr.diginamic.gestionconges.entities.TypeAbsence;
 import fr.diginamic.gestionconges.repositories.JourFerieRepository;
 
 @Service
@@ -49,6 +56,24 @@ public class JourFerieService {
 		}
 		jourFerieRepository.deleteById(id);
 		return ResponseEntity.status(HttpStatus.OK).body("Jour ferié supprimé");
+	}
+	
+	public JourFerie toEntity(JourFerieDto jourFerieDto) {
+		JourFerie jourFerie = new JourFerie();
+		jourFerie.setId(jourFerieDto.getId());
+		jourFerie.setDateDebut(LocalDate.parse(jourFerieDto.getDateDebut(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		jourFerie.setDateFin(LocalDate.parse(jourFerieDto.getDateFin(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		jourFerie.setLibelle(jourFerieDto.getLibelle());
+		return jourFerie;
+	}
+	
+	public JourFerieDto toDto(JourFerie jourFerie) {
+		JourFerieDto jourFerieDto = new JourFerieDto();
+		jourFerieDto.setId(jourFerie.getId());
+		jourFerieDto.setDateDebut(jourFerie.getDateDebut().toString());
+		jourFerieDto.setDateFin(jourFerie.getDateFin().toString());
+		jourFerieDto.setLibelle(jourFerie.getLibelle());
+		return jourFerieDto;
 	}
 
 }
