@@ -50,8 +50,9 @@ public class DemandeAbsenceDto {
 		return statut;
 	}
 
-	public void setStatut(String statut) {
+	public DemandeAbsenceDto setStatut(String statut) {
 		this.statut = statut;
+		return null;
 	}
 
 	public String getMotifAbsence() {
